@@ -1,0 +1,16 @@
+html {
+  /* font-size: 62.5%; */
+  font-family: 'Fira Sans Extra Condensed', sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* body,
+#app {
+  min-height: 100vh;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr 80px;
+} */
