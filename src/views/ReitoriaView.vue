@@ -20,7 +20,7 @@
         swiperRef = swiper
       }
       onMounted(async () => {
-        slides.value = await fetch('/api/reitoria.json').then(res => res.json())
+        slides.value = await fetch('/dados/reitoria.json').then(res => res.json())
         console.log(slides)
       })
       return {
@@ -68,13 +68,14 @@
   background-color: #f9f9f9;
   background-position: center;
   background-size: cover;
-  width: 600px;
-  height: 70vh;
+  width: calc(100% - 20px);
+  max-width: 800px;
+  height: 90vh;
   padding: 20px 40px;
   border-radius: 20px;
   overflow: hidden;
 }
 .swiper-slide-fully-visible {
-  box-shadow: 0px 0px 5px -2px #000;
+  box-shadow: 0px 0px 5px 0px #000;
 }
 </style>
