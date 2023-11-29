@@ -5,17 +5,7 @@ import FooterBar from './components/FooterBar.vue'
 </script>
 
 <template>
-  <NavBar />
-  <main>
-    <div class="container">
-      <RouterView />
-    </div>
-  </main>
-  <FooterBar />
+  <RouterView />
 </template>
 
-<style scoped>
-main {
-  margin-top: 90px;
-}
-</style>
+<style scoped></style>
