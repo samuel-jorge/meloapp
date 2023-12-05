@@ -17,12 +17,12 @@
       let slides = ref()
       let swiperRef = null
       const speechButton = (item) => {
-        console.log(item.body);
+        let { title, body } = item;
+        //console.log(title, body);
         if (document.body.classList.contains('speaking')) return stopSpeach();
         document.body.classList.add('speaking');
-        //context = evt.target.closest('.slide-content');
-        //let text = "teste de audio sendo executado";
-        speak(item.body);
+        let text = title + "\n\n" + body.replaceAll('am-se', 'ãosse').replaceAll('</p>', '.</p>');
+        speak(text);
       }
       const setSwiperRef = (swiper) => {
         swiperRef = swiper

@@ -74,7 +74,7 @@ const escolher_ponto = async () => {
     <div class="container">
       <div class="nav">
         <ul class="menu">
-          <li><a href="/">Inicio</a></li>
+          <li><a href="/"><img class="brasao-navbar" src="https://wp.ufc.br/a/brasao-ufc.svg" alt="Brasao da UFC" /></a></li>
           <li><a @click="localizar" href="#">Navegação por localização</a></li>
           <li><a @click="escolher_ponto" href="#">Navegação virtual</a></li>
           <li><a @click="fontes" href="#">Fontes</a></li>
@@ -121,5 +121,8 @@ header {
 }
 a {
   color: #fff;
+}
+.brasao-navbar {
+  width: 50px;
 }
 </style>

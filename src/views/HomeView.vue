@@ -5,21 +5,11 @@
   <main>
     <div class="container splash">
       <div>
-        <img class="hero-point" src="/images/splash.png">
         <img class="logo" src="/images/brasao.png">
         <h1 class="hero-title">Memória Localizada da <span class="cor-1">UFC</span></h1>
         <p class="hero-subtitle">Conteúdo histórico acessível por marcadores geográficos</p>
       </div>
-      <nav>
-        <ul class="menu-bar">
-          <li><a class="menu-item" @click="localizar" href="#">Navegação por localização</a></li>
-          <li><a class="menu-item" @click="escolher_ponto" href="#">Navegação virtual</a></li>
-          <li><a class="menu-item"
-              href="javascript:alertify.alert('Web App em desenvolvimento', 'Web App desenvolvido por equipe MELO para o Hackaton da Prointer/UFC.')">Sobre</a>
-          </li>
-          <li><a class="menu-item" @click="fontes" href="#">Fontes</a></li>
-        </ul>
-      </nav>
+      <img class="hero-point" src="/images/splash.png">
     </div>
   </main>
 </template>
@@ -38,5 +28,31 @@ header {
   padding: 10px 0;
   display: flex;
   gap: 10px;
+}
+.splash{
+  width: calc(100% - 60px);
+  max-width: 800px;
+  height: auto;
+  padding: 60px;
+  border: 3px solid var(--slide-4);
+  border-radius: 20px;
+  background-color:#FFFC;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  width: 200px;
+  margin-bottom: 20px;
+}
+.hero-point {
+  width: 200px;
+}
+.hero-title {
+  font-size: 3.5rem;
+}
+.hero-subtitle {
+  font-size: 1.8rem;
 }
 </style>
