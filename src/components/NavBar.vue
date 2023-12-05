@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 
 let pontos = ref();
-let link_gmaps = '#';
+let link_gmaps = ref();
 
 onMounted(async () => {
   pontos = await fetch('/dados/pontos.json').then(res => res.json());
@@ -11,10 +11,10 @@ onMounted(async () => {
 
   pontos.forEach((item) =>
   {
-    if (item.point == pagina_atual) link_gmaps = item.directions;
-  });
+    if (item.point == pagina_atual) document.getElementById('maps_link').href = item.directions;
 
-  console.log(pontos, link_gmaps)
+    console.log(pontos)
+  });
 })
 
 const teste = () => {
@@ -92,7 +92,7 @@ const escolher_ponto = async () => {
         </ul>
         <ul class="menu">
           <li>
-            <a class="pointer-link" v-bind:href="link_gmaps" target="_blank" title="Rota para este ponto">
+            <a class="pointer-link" href="#" id="maps_link" target="_blank" title="Rota para este ponto">
               <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
             </a>
           </li>
