@@ -78,7 +78,8 @@ body
 }
 
 ::-webkit-scrollbar-track {
-  background: #f9f9f9;
+  /*background: #f9f9f9;*/
+  background: transparent;
 }
 
 .container
@@ -312,8 +313,7 @@ body
 
 .pointer-link{
   color:#A33;
-  font-size:4rem;
-  margin-left:10px;;
+  font-size:2rem;
 }
 
 .pointer-links{

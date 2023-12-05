@@ -113,17 +113,4 @@
 </template>
 
 <style scoped>
-.swiper-slide {
-  background-color: #f9f9f9;
-  background-position: center;
-  background-size: cover;
-  width: calc(100% - 20px);
-  max-width: 800px;
-  height: 95vh;
-  border-radius: 20px;
-  overflow: hidden;
-}
-.swiper-slide-fully-visible {
-  box-shadow: 0px 0px 5px 0px #000;
-}
 </style>

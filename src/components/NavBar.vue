@@ -1,31 +1,125 @@
-<script></script>
+<script setup>
+import { onMounted, ref } from 'vue';
+
+let pontos = ref();
+
+onMounted(async () => {
+  pontos = await fetch('/dados/pontos.json').then(res => res.json());
+  console.log(pontos)
+})
+
+const teste = () => {
+  alert('Teste!!!')
+}
+
+const localizar = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(localizarPonto, noLocationAuth, {enableHighAccuracy: true});
+  }
+}
+
+const localizarPonto = (location) => {
+  closest_point(location.coords.latitude, location.coords.longitude);
+}
+
+function noLocationAuth(error) {
+  alert('Autorize o compartilhamento de localização para usar este recurso, ou siga a navegação virtual!');
+  console.log(error);
+}
+
+let closest_point = (lat, lon) => {
+  let num = Math.pow(lat, 2) + Math.pow(lon, 2), min = Math.abs(pontos[0].sum - num), closest = 0;
+  pontos[0].diff = Math.abs(num - pontos[0].sum);
+  for (let i = 1; i < pontos.length; i++) {
+    pontos[i].diff = Math.abs(num - pontos[i].sum);
+    if (pontos[i].diff < min) {
+      min = Math.abs(num - pontos[i].sum);
+      closest = i;
+    }
+  }
+  //console.log(num,  lat, lon);
+  alertify.confirm(
+    'Ponto mais próximo encontrado:',
+    '<p class="center"><b>'+ pontos[closest].title + '</b></p>',
+    () => location.href = '/'+ pontos[closest].point + '',
+    () => location.href = pontos[closest].directions,
+  )
+  .set('labels', {ok: pontos[closest].subtitle, cancel: '<ion-icon name="map"></ion-icon> Rota para o local'})
+  .set({invokeOnCloseOff: true});
+}
+
+const fontes = () => {
+  alertify.alert(
+    'Fontes:',
+    '<h3 style="margin-bottom:20px;">Todas as informações dispostas neste sítio eletrônico tem como origem uma ou mais dentre as seguintes fontes:</h3>'+
+    '<ul style="margin-bottom:20px;list-style-type:bullet">'+
+      '<li>Portal da UFC</li>'+
+      '<li>Memorial da UFC</li>'+
+      '<li>Sítio da STI</li>'+
+      '<li>Sítio do Centro de Ciências</li>'+
+    '</ul>'+
+    '<p>Estamos abertos à revisão colaborativa, de forma a tornar a informação cada vez mais útil e precisa.</p>'
+  )
+}
+
+const escolher_ponto = async () => {
+  let html = '';
+  pontos.forEach((p) => html += '<h3 class="point-title"><a href="/'+ p.point +'">'+ p.title +': '+ p.subtitle  +'</h3>');
+  alertify.alert('Selecione um ponto', html);
+}
+</script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+  <header>
     <div class="container">
-      <router-link class="navbar-brand" to="/">
-        <img src="/logo.png" width="32" alt="">
-        Melo WebApp
-      </router-link>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">Início</router-link>
+      <div class="nav">
+        <ul class="menu">
+          <li><a href="/">Inicio</a></li>
+          <li><a @click="localizar" href="#">Navegação por localização</a></li>
+          <li><a @click="escolher_ponto" href="#">Navegação virtual</a></li>
+          <li><a @click="fontes" href="#">Fontes</a></li>
+          <li><a href="javascript:alertify.alert('Web App em desenvolvimento', 'Web App desenvolvido por equipe MELO para o Hackaton da Prointer/UFC.')">Sobre</a></li>
+        </ul>
+        <ul class="menu">
+          <li>
+            <a class="pointer-link" href="https://goo.gl/maps/J8WuvkmhYNovQzLL6" target="_blank" title="Rota para este ponto">
+              <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
+            </a>
           </li>
-          <li class="nav-item">
-            <router-link to="/reitoria" class="nav-link">Reitoria</router-link>
+          <li>
+            <a class="pointer-link" onclick="nav_share()" href="#">
+              <ion-icon name="share-social-outline"></ion-icon>
+            </a>
           </li>
-          <li class="nav-item">
-            <router-link to="/sobre" class="nav-link">Sobre</router-link>
+          <li>
+            <a class="pointer-link" href="#" target="_blank">
+              <ion-icon name="qr-code-outline"></ion-icon>
+            </a>
           </li>
         </ul>
       </div>
     </div>
-  </nav>
+  </header>
 </template>
 
-<style></style>
+<style scoped>
+header {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  background-color: rgb(0 30 40);
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+.menu {
+  height: 40px;
+  padding: 10px 0;
+  display: flex;
+  gap: 20px;
+}
+a {
+  color: #fff;
+}
+</style>
