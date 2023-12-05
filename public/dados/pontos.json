@@ -18,7 +18,7 @@
         "lon":-38.57395277797595,
         "sum":1501.984829130793,
         "directions":"https://goo.gl/maps/1VTKnQJwLXVD7dox9"
-    },   
+    },
     {
         "point":"cc",
         "title":"Centro de Ciências",
@@ -27,6 +27,16 @@
         "lat":-3.745498720739981,
         "lon":-38.5732850216381,
         "sum":1501.9270780275951,
+        "directions":"https://goo.gl/maps/TVdDbTz2nmoRqhZbA"
+    },
+    {
+        "point":"prograd",
+        "title":"Pró-Reitoria de Graduação",
+        "subtitle":"Linha do tempo",
+        "data_file":"/dados/prograd.json",
+        "lat":-3.742680305410392,
+        "lon":-38.57408499775974,
+        "sum":1501.96769,
         "directions":"https://goo.gl/maps/TVdDbTz2nmoRqhZbA"
     }
 ]
