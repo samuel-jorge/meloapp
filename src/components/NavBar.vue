@@ -2,10 +2,19 @@
 import { onMounted, ref } from 'vue';
 
 let pontos = ref();
+let link_gmaps = '#';
 
 onMounted(async () => {
   pontos = await fetch('/dados/pontos.json').then(res => res.json());
-  console.log(pontos)
+
+  let pagina_atual = location.pathname.substring(1);
+
+  pontos.forEach((item) =>
+  {
+    if (item.point == pagina_atual) link_gmaps = item.directions;
+  });
+
+  console.log(pontos, link_gmaps)
 })
 
 const teste = () => {
@@ -57,6 +66,7 @@ const fontes = () => {
       '<li>Memorial da UFC</li>'+
       '<li>Sítio da STI</li>'+
       '<li>Sítio do Centro de Ciências</li>'+
+      '<li>Sítio: <a href="https://prograd50anos.ufc.br">Prograd 50 anos</a></li>'+
     '</ul>'+
     '<p>Estamos abertos à revisão colaborativa, de forma a tornar a informação cada vez mais útil e precisa.</p>'
   )
@@ -82,7 +92,7 @@ const escolher_ponto = async () => {
         </ul>
         <ul class="menu">
           <li>
-            <a class="pointer-link" href="https://goo.gl/maps/J8WuvkmhYNovQzLL6" target="_blank" title="Rota para este ponto">
+            <a class="pointer-link" v-bind:href="{{link_gmaps}}" target="_blank" title="Rota para este ponto">
               <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
             </a>
           </li>
