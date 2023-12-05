@@ -11,7 +11,11 @@ onMounted(async () => {
 
   pontos.forEach((item) =>
   {
-    if (item.point == pagina_atual) document.getElementById('maps_link').href = item.directions;
+    if (item.point == pagina_atual)
+    {
+      document.getElementById('maps_link').href = item.directions;
+      document.title = item.title +' - '+ item.subtitle;
+    }
 
     console.log(pontos)
   });
