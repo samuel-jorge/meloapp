@@ -1,7 +1,7 @@
 <script>
   import { onMounted, ref } from 'vue';
   import { Swiper, SwiperSlide } from 'swiper/vue'; // Import Swiper Vue.js components
-  import { EffectCoverflow, Pagination } from 'swiper/modules'; // import required modules
+  import { EffectCoverflow, Pagination, Navigation, Keyboard } from 'swiper/modules'; // import required modules
 
   // Import Swiper styles
   import 'swiper/css';
@@ -16,18 +16,65 @@
     setup() {
       let slides = ref()
       let swiperRef = null
+      const speechButton = (item) => {
+        console.log(item.body);
+        if (document.body.classList.contains('speaking')) return stopSpeach();
+        document.body.classList.add('speaking');
+        //context = evt.target.closest('.slide-content');
+        //let text = "teste de audio sendo executado";
+        speak(item.body);
+      }
       const setSwiperRef = (swiper) => {
         swiperRef = swiper
       }
+      const onSwiper = (swiper) => {
+        console.log(swiper);
+      };
+      const onSlideChange = () => {
+        console.log('slide change');
+      };
+      // inicio da configuracao do speech
+      let voice;
+      function populateVoiceList() {
+        let voices = window.speechSynthesis.getVoices();
+        for (var i = 0; i < voices.length; i++) {
+          if (voices[i].lang === 'pt-BR') {
+            voice = voices[i];
+            return ;
+          }
+        }
+        voice = voices[0];
+      }
+      function stopSpeach() {
+        speechSynthesis.cancel();
+      }
+      function speak(speechtext) {
+        let utterance = new SpeechSynthesisUtterance(speechtext.replace(/<[^>]*>?/gm, ' '));
+        utterance.voice = voice;
+        utterance.volume = 0.7;
+        utterance.pitch = 0.2;
+        utterance.rate = 2;
+        utterance.addEventListener('start', () => document.body.classList.add('speaking'));
+        utterance.addEventListener('end', () => document.body.classList.remove('speaking'));
+        utterance.addEventListener('error', () => document.body.classList.remove('speaking'));
+        speechSynthesis.speak(utterance);
+      }
+      // fim da configuração do speech
       onMounted(async () => {
         slides.value = await fetch('/dados/reitoria.json').then(res => res.json())
-        console.log(slides)
+        populateVoiceList();
+        if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = populateVoiceList;
+        //console.log(slides)
       })
       return {
         slides,
         swiperRef: null,
         setSwiperRef,
-        modules: [EffectCoverflow, Pagination],
+        onSwiper,
+        onSlideChange,
+        populateVoiceList,
+        speechButton,
+        modules: [EffectCoverflow, Pagination, Navigation, Keyboard],
       };
     },
   };
@@ -46,32 +93,33 @@
       modifier: 4.5,
       slideShadows: true,
     }"
-    :pagination="true"
+    :keyboard="{ enabled: true }"
+    :pagination="{ clickable: true }"
     :navigation="true"
     :modules="modules"
+    @slideChange="onSlideChange"
     class="mySwiper"
   >
     <swiper-slide v-for="(item, index) in slides" :key="index" :virtualIndex="index">
-      <p>{{ item.title }}</p>
-      <div v-html="item.body"></div>
+      <div class="slide-content">
+        <h2 class="slide-title">
+          <span class="inner-title">{{ item.title }}</span>
+          <ion-icon @click="speechButton(item)" class="speaker" name="mic-circle"></ion-icon>
+        </h2>
+        <div class="slide-content-bottom" v-html="item.body"></div>
+      </div>
     </swiper-slide>
   </swiper>
 </template>
 
 <style scoped>
-.swiper {
-  width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
 .swiper-slide {
   background-color: #f9f9f9;
   background-position: center;
   background-size: cover;
   width: calc(100% - 20px);
   max-width: 800px;
-  height: 90vh;
-  padding: 20px 40px;
+  height: 95vh;
   border-radius: 20px;
   overflow: hidden;
 }
