@@ -21,6 +21,17 @@ onMounted(async () => {
   });
 })
 
+let nav_share = () => {
+  data = {
+    'title': 'Memória da UFC',
+    'text': document.title,
+    'url': location.href
+  };
+  if (navigator.canShare && navigator.canShare(data)) {
+    navigator.share(data);
+  }
+}
+
 const teste = () => {
   alert('Teste!!!')
 }
@@ -101,7 +112,16 @@ const escolher_ponto = async () => {
             </a>
           </li>
           <li>
-            <a class="pointer-link" onclick="nav_share()" href="#">
+            <a class="pointer-link" onclick="javascript:{
+  data = {
+    'title': 'Memória da UFC',
+    'text': document.title,
+    'url': location.href
+  };
+  if (navigator.canShare && navigator.canShare(data)) {
+    navigator.share(data);
+  }
+}" href="#">
               <ion-icon name="share-social-outline"></ion-icon>
             </a>
           </li>
