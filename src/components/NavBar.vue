@@ -92,7 +92,7 @@ const escolher_ponto = async () => {
         </ul>
         <ul class="menu">
           <li>
-            <a class="pointer-link" v-bind:href="{{link_gmaps}}" target="_blank" title="Rota para este ponto">
+            <a class="pointer-link" v-bind:href="link_gmaps" target="_blank" title="Rota para este ponto">
               <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
             </a>
           </li>
