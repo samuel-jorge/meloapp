@@ -25,6 +25,11 @@ const router = createRouter({
       component: () => import('../views/CcView.vue')
     },
     {
+      path: '/prograd',
+      name: 'prograd',
+      component: () => import('../views/ProgradView.vue')
+    },
+    {
       path: '/sobre',
       name: 'sobre',
       // route level code-splitting
