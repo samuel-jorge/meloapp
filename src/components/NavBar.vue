@@ -22,7 +22,7 @@ onMounted(async () => {
 })
 
 let nav_share = () => {
-  data = {
+  let data = {
     'title': 'Memória da UFC',
     'text': document.title,
     'url': location.href
@@ -92,36 +92,36 @@ const escolher_ponto = async () => {
   pontos.forEach((p) => html += '<h3 class="point-title"><a href="/'+ p.point +'">'+ p.title +': '+ p.subtitle  +'</h3>');
   alertify.alert('Selecione um ponto', html);
 }
+
+let opened_menu = true;
+const clickBtnMenu = () => {
+  //console.log(texto_botao);
+  document.querySelector('.menu-links').classList.toggle('active');
+  //document.querySelector('.menu-button').innerText = texto_botao;
+  //opened_menu = !opened_menu;
+}
 </script>
 
 <template>
   <header>
     <div class="container">
       <div class="nav">
-        <ul class="menu">
+        <button @click="clickBtnMenu" class="menu-button">menu</button>
+        <ul class="menu menu-links">
           <li><a href="/"><img class="brasao-navbar" src="https://wp.ufc.br/a/brasao-ufc.svg" alt="Brasao da UFC" /></a></li>
           <li><a @click="localizar" href="#">Navegação por localização</a></li>
           <li><a @click="escolher_ponto" href="#">Navegação virtual</a></li>
           <li><a @click="fontes" href="#">Fontes</a></li>
           <li><a href="javascript:alertify.alert('Web App em desenvolvimento', 'Web App desenvolvido por equipe MELO para o Hackaton da Prointer/UFC.')">Sobre</a></li>
         </ul>
-        <ul class="menu">
+        <ul class="menu menu-icons">
           <li>
             <a class="pointer-link" href="#" id="maps_link" target="_blank" title="Rota para este ponto">
               <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
             </a>
           </li>
           <li>
-            <a class="pointer-link" onclick="javascript:{
-  data = {
-    'title': 'Memória da UFC',
-    'text': document.title,
-    'url': location.href
-  };
-  if (navigator.canShare && navigator.canShare(data)) {
-    navigator.share(data);
-  }
-}" href="#">
+            <a class="pointer-link" @click="nav_share" href="#">
               <ion-icon name="share-social-outline"></ion-icon>
             </a>
           </li>
@@ -139,13 +139,14 @@ const escolher_ponto = async () => {
 <style scoped>
 header {
   position: fixed;
-  z-index: 9999;
+  z-index: 999;
   width: 100%;
   background-color: rgb(0 30 40);
 }
 .nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .menu {
   height: 40px;
@@ -158,5 +159,43 @@ a {
 }
 .brasao-navbar {
   width: 50px;
+}
+button {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  button {
+    display: block;
+    z-index: 9999;
+    border: 0;
+    padding: 2px 6px;
+    background-color: orange;
+    border-radius: 4px;
+  }
+  .menu-links {
+    display: none;
+  }
+  .menu-links.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .95);
+    padding: 20px;
+    text-align: center;
+  }
+  .menu-links.active a {
+    font-size: 2.5rem;
+    padding: 10px 0;
+  }
+  .menu-links.active .brasao-navbar {
+    width: 200px;
+  }
 }
 </style>
